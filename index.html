@@ -16,18 +16,33 @@
             this.remainGuess=remGuess;
             this.lettersUsed=letUsed;
 
+           
+            this.displayWordSpaces = function (word) {
+                
+                var listOfSpaces = " ";
+                for (i=0; i<word.length ; i++) {
+                    
+                    listOfSpaces+="<span> _ </span>"
+                    console.log("Espacios2" + listOfSpaces);
+                }
+                console.log("Espacios" + listOfSpaces);
+                document.getElementById("guessWord").innerHTML=listOfSpaces;
+            }
+
         } 
 // Create my object Game        
         var newGame = new hangman (
-            ["Test"],
+                ["Test" , "test2"],
             0,
             0,
             0
         );
-
-        var wordGuess = document.getElementById("guessWord");
-        wordGuess.textContent = newGame.wordPlay[0];
+        console.log (newGame.wordPlay[0]);
+        newGame.displayWordSpaces(newGame.wordPlay[0])  ;
+        //var wordGuess = document.getElementById("guessWord");
+        //wordGuess.textContent = newGame.wordPlay[0];
         console.log (newGame);
+
 
     </script>
 </body>
