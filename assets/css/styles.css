@@ -5,7 +5,12 @@
     clear:both;
 }
 .divHead {
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Creepster', cursive;
+    
+}
+
+.header{
+    font-size:60px;
 }
 
 .image_display {
