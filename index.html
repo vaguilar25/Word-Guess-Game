@@ -14,11 +14,11 @@
 
 
     <script type="text/javascript">
-        var userKeyPressed = "";
-        var arrayOfLetters = [];
-        var countRemain = 0;
-        var lettersUsed = []; //array that stores the letters I have used
-        var arrayOfAnswers = [];
+        var userKeyPressed = "";  //Key pressed by the user
+        var arrayOfLetters = [];  //array that stores the letters
+        var countRemain = 0;      //keep track of the ramining tries
+        var lettersUsed = [];     //array that stores the letters I have used
+        var arrayOfAnswers = [];  //store the answer letters into array
 
         document.onkeyup = function (event) {
             userKeyPressed = event.key;
