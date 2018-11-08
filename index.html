@@ -9,38 +9,39 @@
     <h1>Hangman Game</h1>
     <p> Guess word : <span id="guessWord"></span></p>
     <p>Total Guesses: <span id="totalGuesses"> </span></p>
-    <p>Letters Used: </p><span id="letterUse"> </span> </p>
+    <p>Letters Already Used:<span id="letterUse"> </span> </p>
     <p>Guesses Remainining: <span id="guessRemaining"> </span></p>
-    <p>Letters Already Guessed: <span id="guessRemaining"> </span></p>
+
 
     <script type="text/javascript">
         var userKeyPressed = "";
         var arrayOfLetters = [];
         var countCorrect = 0;
-        var countRemain = 12;
+        var countRemain = 0;
         var wrongKey = false;
-        var lettersUsed =[];
+        var lettersUsed = [];
 
         document.onkeyup = function (event) {
             userKeyPressed = event.key;
             console.log("User Key Press:" + userKeyPressed);
 
             //check if the user have used the letter
-            console.log("lettersUsed.length " + lettersUsed.length)
-            if (lettersUsed.length === 0) {
-                lettersUsed.push (userKeyPressed);
-                console.log("lettersUsed[i]" + 0 + " " + lettersUsed[0]);
-            }
-            lettersUsed.forEach(function(element) {
+            var countMatch = 0;
+            lettersUsed.forEach(function (element) {
                 if (userKeyPressed === element) {
-                    lettersUsed.push (userKeyPressed);
-                } 
-                console.log ("lettersUsed" + lettersUsed);
+                    countMatch++
+                }
             });
-            
+
+            if (countMatch === 0) {
+                lettersUsed.push(userKeyPressed);
+                console.log("Push into the array " + userKeyPressed);
+
+            }
+
             var lUsed = document.getElementById("letterUse");
             lUsed.textContent = lettersUsed;
-           
+
             //Go through the array of letters and find a match to the user input
             //correctKey will keep track if there is a match
             correctKey = 0;
@@ -48,36 +49,32 @@
             arrayOfLetters.forEach(function (element, index) {
                 if (userKeyPressed === element) {
                     var tagName = "letter" + index;
-                    console.log(tagName);
-
+                    // console.log(tagName);
                     var letterReplace = document.getElementById(tagName);
                     letterReplace.textContent = element;
-
                     countCorrect++;
                     correctKey++
-                    
-
-                } 
+                }
             });
 
-        //If there is not a match reduce the remain tries
+            //If there is not a match reduce the remain tries
             if (correctKey === 0) {
-                console.log("Count Remain " + wrongKey);
-                countRemain = countRemain - 1;
+                newGame.countRemain = newGame.countRemain - 1;
                 var gRemaining = document.getElementById("guessRemaining");
-                gRemaining.textContent = countRemain;
+                gRemaining.textContent = newGame.countRemain;
             }
 
-        //Display the totalGuesses through the game
+
+            //Display the totalGuesses through the game
             var totalGuess = document.getElementById("totalGuesses");
             totalGuess.textContent = countCorrect;
-            console.log("countCorrect" + countCorrect);
+            //console.log("countCorrect" + countCorrect);
         }
 
-        function hangman(word, remGuess, letUsed) {
+        function hangman(word, letUsed, cRemain) {
             this.wordPlay = word;
-            this.remainGuess = remGuess;
             this.lettersUsed = letUsed;
+            this.countRemain = cRemain;
 
             //Function used to display spaces of the word to be guessed 
             this.displayWordSpaces = function (word) {
@@ -100,18 +97,19 @@
         var newGame = new hangman(
             "testing",
             0,
-            0,
             0
         );
 
         newGame.displayWordSpaces(newGame.wordPlay);
         arrayOfLetters = newGame.wordPlay.split("");
 
+        //How many letters the system will let try.
+        newGame.countRemain = arrayOfLetters.length + 5;
 
-        console.log("split: ", newGame.wordPlay.split(""));
+       // console.log("split: ", newGame.wordPlay.split(""));
         //var wordGuess = document.getElementById("guessWord");
         //wordGuess.textContent = newGame.wordPlay[0];
-        console.log(newGame);
+       //    console.log(newGame);
 
 
 
