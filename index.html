@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
 
-        <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
 </head>
 
 <body id="image_background">
@@ -46,14 +46,14 @@
             </div>
         </div>
         <div class="row pt-5">
-                <div class=col-sm-4></div>
-                <div class="col-sm-4 image_display" id="divImage">
-                    <img src="../Word-Guess-Game/assets/images/hangman.png"  > 
-                </div>
-                <div class=col-sm-4></div>
-         </div>
+            <div class=col-sm-4></div>
+            <div class="col-sm-4 image_display" id="divImage">
+                <img src="../Word-Guess-Game/assets/images/hangman.png">
+            </div>
+            <div class=col-sm-4></div>
+        </div>
 
-         
+
 
     </div>
 
@@ -61,14 +61,27 @@
 
 
     <script type="text/javascript">
-        var userKeyPressed = "";  //Key pressed by the user
-        var arrayOfLetters = [];  //array that stores the letters
-        var countRemain = 0;      //keep track of the ramining tries
-        var lettersUsed = [];     //array that stores the letters I have used
-        var arrayOfAnswers = [];  //store the answer letters into array
+
+        // Initialize game
+        //initializeGame();
+        //function initializeGame() {
+            var userKeyPressed = "";  //Key pressed by the user
+            var arrayOfLetters = [];  //array that stores the letters
+            var countRemain = 0;      //keep track of the ramining tries
+            var lettersUsed = [];     //array that stores the letters I have used
+            var arrayOfAnswers = [];  //store the answer letters into array
+            delete hangman;
+        //}
 
         document.onkeyup = function (event) {
+
             userKeyPressed = event.key;
+
+            //if (key == 13) { 
+            // enter key do nothing
+            //initializeGame();
+
+            //} 
             console.log("User Key Press:" + userKeyPressed);
 
             //check if the user have used the letter
@@ -125,7 +138,10 @@
                     gRemaining.textContent = "You Loose";
 
                     var imageDiv = document.getElementById("divImage");
-                    imageDiv.style.display="block";
+                    imageDiv.style.display = "block";
+                    
+                    event.preventDefault();
+
                 }
             }
 
