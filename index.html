@@ -14,6 +14,7 @@
         crossorigin="anonymous">
 
     <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+    <link rel="icon" href="https://cdn-images-1.medium.com/fit/c/256/256/1*yAPfmVDTwlx1BGJTZJ-1zg@2x.png" class="js-favicon">
 </head>
 
 <body id="image_background">
@@ -25,8 +26,10 @@
                 <h1 class="text-center header">Hangman Game</h1>
             </div>
         </div>
+
         <div class="row pt-5">
             <div class="col-sm-12">
+                <h2 class="text-warning font-weight-bold ">Music artists or bands</h2>
                 <h3 class="text-white"> Guess word: <span id="guessWord"></span></h3>
             </div>
         </div>
@@ -58,38 +61,42 @@
 
     </div>
 
- <script type="text/javascript">
+    <script type="text/javascript">
 
-       
-        var arrayOfWords=[];      //Words to be guessed
+
+        var arrayOfWords = [];      //Words to be guessed
         var userKeyPressed = "";  //Key pressed by the user
         var arrayOfLetters = [];  //array that stores the letters
-        var countRemain =0;       //keep track of the ramining tries
+        var countRemain = 0;       //keep track of the ramining tries
         var lettersUsed = [];     //array that stores the letters I have used
         var arrayOfAnswers = [];  //store the answer letters into array
         var arrayOfLetters = [];
-     
+
         var countWins = 0;
         var gameLock = false;
 
         initializeGame();
-
+        //add audio files
+        var audioJustin = new Audio('assets/audio/justin.mp3');
+        var audioPink = new Audio('assets/audio/Pink.mp3');
+        var audioMetallica = new Audio('assets/audio/Metallica.mp3');
+        var audioEva = new Audio('assets/audio/Eva.mp3');
         function initializeGame() {
             //Reset Variables
-            arrayOfWords = ["pink", "metallica", "timberlake", "beyonce"]; 
+            arrayOfWords = ["pink", "metallica", "timberlake", "evanescence"];
             userKeyPressed = "";  //Key pressed by the user
             arrayOfLetters = [];  //array that stores the letters
             countRemain = 0;      //keep track of the ramining tries
             lettersUsed = [];     //array that stores the letters I have used
             arrayOfAnswers = [];  //store the answer letters into array
             arrayOfLetters = [];
-            
+
             //Initialize content of the DOM tags
             document.getElementById("guessRemaining").innerHTML = "";
             document.getElementById("letterUse").innerHTML = "";
             document.getElementById("guessWord").innerHTML = "";
             var imageDiv = document.getElementById("divImage");
-                        imageDiv.style.display = "none";
+            imageDiv.style.display = "none";
 
             //Select a random word and display the spaces for the word to be guesse
             wordToPlay = arrayOfWords[Math.floor(Math.random() * arrayOfWords.length)];
@@ -99,17 +106,31 @@
             //Initialize how many tries the user will have.. we increase with 5 the word length
             countRemain = arrayOfLetters.length + 5;
             gameLock = false;
+
         }
 
         document.onkeyup = function (event) {
             userKeyPressed = event.key;
-            userKeyPressed = userKeyPressed.toLowerCase();   
-            
+            userKeyPressed = userKeyPressed.toLowerCase();
+
             if (gameLock) {
-                if(event.keyCode == '13') {
+                if (event.keyCode == '13') {
                     initializeGame();
+
+                    //rewind audio
+                    audioJustin.pause();
+                    audioJustin.currentTime = 0;
+
+                    audioPink.pause();
+                    audioPink.currentTime = 0;
+
+                    audioMetallica.pause();
+                    audioMetallica.currentTime = 0;
+
+                    audioEva.pause();
+                    audioEva.currentTime = 0;
                 }
-               
+
             } else {
 
                 //If there is a match, replace the blank space tag with the user key Pressed letter
@@ -123,18 +144,34 @@
                         var tagName = "letter" + index;
                         var letterReplace = document.getElementById(tagName);
                         letterReplace.textContent = element;
-                        
+
                         //insert the letter on an array of answers
                         arrayOfAnswers[index] = element;
                         var completedWord = arrayOfAnswers.join("");
                         //check the word of arrayOfAnswer against the wordToPlay 
                         if (completedWord === wordToPlay) {
+                            //play music
+                            if (completedWord === "timberlake") {
+                                audioJustin.play();
+                            } else if (completedWord === "pink") {
+                                audioPink.play();
+                            } else if (completedWord === "metallica") {
+                                audioMetallica.play();
+                            } else if (completedWord === "evanescence") {
+                                audioEva.play();
+                            }
+
 
                             var gRemaining = document.getElementById("guessRemaining");
                             gRemaining.textContent = "You Win - press enter to new game";
                             countWins++;
                             gameLock = true;
                             document.getElementById("winningGames").innerHTML = countWins;
+
+                            // var x = document.getElementById("justin"); 
+                            // x.play
+
+
                         }
                         // Increase if there is a match , this help us to decrease the number of tries
                         correctKey++;
@@ -143,16 +180,16 @@
 
 
                 //If there is not a match decrease tries remining
-                
+
                 if (correctKey === 0) {
                     countRemain = countRemain - 1;
                     var gRemaining = document.getElementById("guessRemaining");
                     gRemaining.textContent = countRemain;
-                
+
                     //check if we do not have more remaining trials, then display loose
                     if (countRemain === 0) {
                         var gRemaining = document.getElementById("guessRemaining");
-                        gRemaining.textContent = "You Lost - press enter to new game";
+                        gRemaining.textContent = "You Lost -- press enter to new game";
 
                         var imageDiv = document.getElementById("divImage");
                         imageDiv.style.display = "block";
@@ -164,9 +201,6 @@
                 //Display letters used
                 var lUsed = document.getElementById("letterUse");
                 lUsed.textContent = trackLetterUsed(lettersUsed, userKeyPressed);
-
-
-
             }
         }
 
@@ -199,15 +233,6 @@
             return lettersUsed;
 
         }
-
-
-
-      
-
-
-
-
-
 
 
     </script>
